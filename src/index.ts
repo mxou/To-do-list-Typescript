@@ -26,26 +26,42 @@ function deleteTask(id: number): void {
   tasks = tasks.filter((task) => task.id !== id); // garde toutes sauf celle avec le bon id
   renderTasks();
 }
+
+function editTask(task: Task): void {
+  const newTitle = prompt("Nouveau nom de tâche", task.title);
+  if (newTitle && newTitle.trim() !== "") {
+    task.title = newTitle.trim();
+    renderTasks();
+  }
+}
+
 function renderTasks(): void {
   const ul = document.querySelector("#task_list") as HTMLUListElement;
   ul.innerHTML = "";
   tasks.forEach((task) => {
     const li = document.createElement("li");
-    li.className = `group bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer ${
+    li.className = `group bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-evenly hover:shadow-md transition-shadow cursor-pointer ${
       task.done ? "opacity-60" : ""
     }`;
 
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Supprimer";
-    deleteButton.className = "text-white rounded-md cursor-pointer px-2 bg-red-400 hover:text-red-50 flex items-center justify-center text-lg font-light ";
+    deleteButton.className = "text-white text-base rounded-md cursor-pointer px-2 bg-red-400 hover:text-red-50 flex items-center justify-center font-light ";
     deleteButton.addEventListener("click", (e) => {
       e.stopPropagation(); // ⚡ évite de déclencher le "done"
       deleteTask(task.id);
     });
 
+    const editButton = document.createElement("button");
+    editButton.innerHTML = "Editer";
+    editButton.className = "text-white text-base rounded-md cursor-pointer px-2 bg-red-400 hover:text-red-50 flex items-center justify-center font-light ";
+    editButton.addEventListener("click", (e) => {
+      e.stopPropagation(); // ⚡ évite de déclencher le "done"
+      editTask(task);
+    });
     const text = document.createElement("span");
     text.textContent = `${task.id}. ${task.title}`;
-    text.className = `flex-1 text-gray-800 ${task.done ? "line-through text-gray-500" : ""}`;
+    text.className = ` text-gray-800 ${task.done ? "line-through text-gray-500" : ""}`;
 
     // li.textContent = `${task.id} . [${task.done ? "x" : ""}] ${task.title}`;
     if (task.done) {
@@ -54,6 +70,7 @@ function renderTasks(): void {
     }
 
     li.appendChild(text);
+    li.appendChild(editButton);
     li.appendChild(deleteButton);
 
     li.addEventListener("click", () => {
