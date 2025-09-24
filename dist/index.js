@@ -1,3 +1,4 @@
+var _a;
 console.log("TS");
 let tasks = [];
 loadTasks();
@@ -14,6 +15,13 @@ function addTask(title) {
     saveTasks();
     renderTasks();
 }
+(_a = document.querySelector("#nuke_button")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+    if (window.confirm("Voulez vous tout supprimer ?")) {
+        tasks = [];
+        saveTasks();
+        renderTasks();
+    }
+});
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }

@@ -2,8 +2,7 @@ console.log("TS");
 
 // FEATURES A RAJOUTER :
 // 1/ Filtrage
-// 2/ Compteur de taches restantes
-// 3/ Delete all
+
 // 4/ Dark mode
 
 // Définition d'une task
@@ -31,6 +30,14 @@ function addTask(title: string): void {
   saveTasks();
   renderTasks();
 }
+
+document.querySelector("#nuke_button")?.addEventListener("click", () => {
+  if (window.confirm("Voulez vous tout supprimer ?")) {
+    tasks = [];
+    saveTasks();
+    renderTasks();
+  }
+});
 
 function saveTasks(): void {
   localStorage.setItem("tasks", JSON.stringify(tasks));
