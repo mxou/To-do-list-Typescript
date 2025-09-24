@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./src/output.css" rel="stylesheet" />
+    <title>ToDo list en TS</title>
+  </head>
+  <body class="text-center grid place-content-center">
+    <h1 class="text-3xl font-light text-gray-800 mb-8 mt-3">ToDo list</h1>
+
+    <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6 shadow-sm">
+      <div class="flex gap-3">
+        <input
+          type="text"
+          placeholder="Nouvelle tâche"
+          id="task_input"
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        <button id="add_button" class="px-6 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 transition-colors">Ajouter</button>
+      </div>
+    </div>
+
+    <ul id="task_list" class="w-full max-w-md space-y-2"></ul>
+    <script type="module" src="./dist/index.js"></script>
+  </body>
+</html>
