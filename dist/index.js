@@ -22,15 +22,15 @@ function renderTasks() {
         const li = document.createElement("li");
         li.className = `group bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer ${task.done ? "opacity-60" : ""}`;
         const deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "×";
-        deleteButton.className =
-            "ml-3 w-6 h-6 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full flex items-center justify-center text-lg font-light transition-colors opacity-0 group-hover:opacity-100";
+        deleteButton.innerHTML = "Supprimer";
+        deleteButton.className = "text-white rounded-md cursor-pointer px-2 bg-red-400 hover:text-red-50 flex items-center justify-center text-lg font-light ";
         deleteButton.addEventListener("click", (e) => {
             e.stopPropagation(); // ⚡ évite de déclencher le "done"
             deleteTask(task.id);
         });
         const text = document.createElement("span");
         text.textContent = `${task.id}. ${task.title}`;
+        text.className = `flex-1 text-gray-800 ${task.done ? "line-through text-gray-500" : ""}`;
         // li.textContent = `${task.id} . [${task.done ? "x" : ""}] ${task.title}`;
         if (task.done) {
             li.style.textDecoration = "line-through";
