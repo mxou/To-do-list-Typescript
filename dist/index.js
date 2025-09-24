@@ -1,5 +1,7 @@
 console.log("TS");
 let tasks = [];
+loadTasks();
+renderTasks();
 // Obligation de passer un string, renvoie rien
 function addTask(title) {
     const newTask = {
@@ -8,21 +10,37 @@ function addTask(title) {
         done: false,
     };
     tasks.push(newTask);
-    console.log(`Tâche ajoutée : ${title}`);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    saveTasks();
     renderTasks();
+}
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+function loadTasks() {
+    const saved = localStorage.getItem("tasks");
+    if (saved) {
+        tasks = JSON.parse(saved);
+    }
 }
 function deleteTask(id) {
     tasks = tasks.filter((task) => task.id !== id); // garde toutes sauf celle avec le bon id
+    saveTasks();
     renderTasks();
 }
 function editTask(task) {
     const newTitle = prompt("Nouveau nom de tâche", task.title);
     if (newTitle && newTitle.trim() !== "") {
         task.title = newTitle.trim();
+        saveTasks();
         renderTasks();
     }
 }
 function renderTasks() {
+    const saved = localStorage.getItem("tasks");
+    if (saved) {
+        tasks = JSON.parse(saved);
+    }
     const ul = document.querySelector("#task_list");
     ul.innerHTML = "";
     tasks.forEach((task) => {
@@ -55,6 +73,7 @@ function renderTasks() {
         li.appendChild(deleteButton);
         li.addEventListener("click", () => {
             task.done = !task.done;
+            saveTasks();
             renderTasks();
         });
         ul.appendChild(li);

@@ -10,6 +10,9 @@ type Task = {
 
 let tasks: Task[] = [];
 
+loadTasks();
+renderTasks();
+
 // Obligation de passer un string, renvoie rien
 function addTask(title: string): void {
   const newTask: Task = {
@@ -18,12 +21,25 @@ function addTask(title: string): void {
     done: false,
   };
   tasks.push(newTask);
-  console.log(`Tâche ajoutée : ${title}`);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  saveTasks();
   renderTasks();
+}
+
+function saveTasks(): void {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasks(): void {
+  const saved = localStorage.getItem("tasks");
+  if (saved) {
+    tasks = JSON.parse(saved);
+  }
 }
 
 function deleteTask(id: number): void {
   tasks = tasks.filter((task) => task.id !== id); // garde toutes sauf celle avec le bon id
+  saveTasks();
   renderTasks();
 }
 
@@ -31,11 +47,16 @@ function editTask(task: Task): void {
   const newTitle = prompt("Nouveau nom de tâche", task.title);
   if (newTitle && newTitle.trim() !== "") {
     task.title = newTitle.trim();
+    saveTasks();
     renderTasks();
   }
 }
 
 function renderTasks(): void {
+  const saved = localStorage.getItem("tasks");
+  if (saved) {
+    tasks = JSON.parse(saved);
+  }
   const ul = document.querySelector("#task_list") as HTMLUListElement;
   ul.innerHTML = "";
   tasks.forEach((task) => {
@@ -75,6 +96,7 @@ function renderTasks(): void {
 
     li.addEventListener("click", () => {
       task.done = !task.done;
+      saveTasks();
       renderTasks();
     });
     ul.appendChild(li);
