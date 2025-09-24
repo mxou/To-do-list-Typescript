@@ -41,6 +41,10 @@ function renderTasks() {
     if (saved) {
         tasks = JSON.parse(saved);
     }
+    const p = document.querySelector("#task_remain");
+    // Compter uniquement les tâches non faites
+    const taskRemain = tasks.filter((task) => !task.done).length;
+    p.innerHTML = taskRemain > 0 ? `Tâches restantes : ${taskRemain}` : "Aucune tâche restante";
     const ul = document.querySelector("#task_list");
     ul.innerHTML = "";
     tasks.forEach((task) => {

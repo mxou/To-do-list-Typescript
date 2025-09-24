@@ -1,5 +1,11 @@
 console.log("TS");
 
+// FEATURES A RAJOUTER :
+// 1/ Filtrage
+// 2/ Compteur de taches restantes
+// 3/ Delete all
+// 4/ Dark mode
+
 // Définition d'une task
 
 type Task = {
@@ -57,6 +63,10 @@ function renderTasks(): void {
   if (saved) {
     tasks = JSON.parse(saved);
   }
+  const p = document.querySelector("#task_remain") as HTMLParagraphElement;
+  // Compter uniquement les tâches non faites
+  const taskRemain = tasks.filter((task) => !task.done).length;
+  p.innerHTML = taskRemain > 0 ? `Tâches restantes : ${taskRemain}` : "Aucune tâche restante";
   const ul = document.querySelector("#task_list") as HTMLUListElement;
   ul.innerHTML = "";
   tasks.forEach((task) => {
@@ -99,6 +109,7 @@ function renderTasks(): void {
       saveTasks();
       renderTasks();
     });
+
     ul.appendChild(li);
   });
 }
