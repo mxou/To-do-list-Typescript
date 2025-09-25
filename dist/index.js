@@ -1,5 +1,4 @@
 var _a, _b, _c, _d;
-console.log("TS");
 let tasks = [];
 let currentFilter = "all";
 function updateFilterUI() {
@@ -19,7 +18,6 @@ function updateFilterUI() {
 }
 loadTasks();
 renderTasks();
-// Obligation de passer un string, renvoie rien
 function addTask(title) {
     const newTask = {
         id: tasks.length + 1,
@@ -48,7 +46,7 @@ function loadTasks() {
     }
 }
 function deleteTask(id) {
-    tasks = tasks.filter((task) => task.id !== id); // garde toutes sauf celle avec le bon id
+    tasks = tasks.filter((task) => task.id !== id);
     saveTasks();
     renderTasks();
 }
@@ -66,7 +64,6 @@ function renderTasks() {
         tasks = JSON.parse(saved);
     }
     const p = document.querySelector("#task_remain");
-    // Compter uniquement les tâches non faites
     const taskRemain = tasks.filter((task) => !task.done).length;
     p.innerHTML = taskRemain > 0 ? `Tâches restantes : ${taskRemain}` : "Aucune tâche restante";
     const ul = document.querySelector("#task_list");
@@ -86,20 +83,19 @@ function renderTasks() {
         deleteButton.className =
             "text-white text-base rounded-md cursor-pointer px-2 bg-red-400 hover:text-red-50 hover:bg-red-500 flex items-center justify-center font-light ";
         deleteButton.addEventListener("click", (e) => {
-            e.stopPropagation(); // ⚡ évite de déclencher le "done"
+            e.stopPropagation();
             deleteTask(task.id);
         });
         const editButton = document.createElement("button");
         editButton.innerHTML = "Editer";
         editButton.className = "text-white text-base rounded-md cursor-pointer px-2 bg-orange-500 hover:bg-orange-600 flex items-center justify-center font-light ";
         editButton.addEventListener("click", (e) => {
-            e.stopPropagation(); // ⚡ évite de déclencher le "done"
+            e.stopPropagation();
             editTask(task);
         });
         const text = document.createElement("span");
         text.textContent = `${task.id}. ${task.title}`;
         text.className = ` text-gray-800 ${task.done ? "line-through text-gray-500" : ""}`;
-        // li.textContent = `${task.id} . [${task.done ? "x" : ""}] ${task.title}`;
         if (task.done) {
             li.style.textDecoration = "line-through";
             li.style.color = "gray";
